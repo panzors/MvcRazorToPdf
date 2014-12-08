@@ -8,9 +8,9 @@ using iTextSharp.tool.xml;
 
 namespace MvcRazorToPdf
 {
-    public class MvcRazorToPdf
+    internal static class MvcRazorToPdf
     {
-        public byte[] GeneratePdfOutput(ControllerContext context, object model = null, string viewName = null,
+        internal static byte[] GeneratePdfOutput(this ControllerContext context, object model = null, string viewName = null,
             Action<PdfWriter, Document> configureSettings = null)
         {
             if (viewName == null)
@@ -34,7 +34,6 @@ namespace MvcRazorToPdf
                     }
                     document.Open();
 
-
                     using (var reader = new StringReader(RenderRazorView(context, viewName)))
                     {
                         XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, reader);
@@ -47,11 +46,10 @@ namespace MvcRazorToPdf
             return output;
         }
 
-        public string RenderRazorView(ControllerContext context, string viewName)
+        internal static string RenderRazorView(this ControllerContext context, string viewName)
         {
             IView viewEngineResult = ViewEngines.Engines.FindView(context, viewName, null).View;
             var sb = new StringBuilder();
-
 
             using (TextWriter tr = new StringWriter(sb))
             {

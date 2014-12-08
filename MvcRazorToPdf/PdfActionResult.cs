@@ -41,9 +41,6 @@ namespace MvcRazorToPdf
 
         public override void ExecuteResult(ControllerContext context)
         {
-            IView viewEngineResult;
-            ViewContext viewContext;
-
             if (ViewName == null)
             {
                 ViewName = context.RouteData.GetRequiredString("action");
@@ -65,9 +62,14 @@ namespace MvcRazorToPdf
                         "attachment; filename=" + FileDownloadName);
                 }
 
-                new FileContentResult(context.GeneratePdf(Model, ViewName, ConfigureSettings), "application/pdf")
+                new FileContentResult(GetBytes(context), "application/pdf")
                     .ExecuteResult(context);
             }
+        }
+
+        public byte[] GetBytes(ControllerContext context) 
+        {
+            return context.GeneratePdf(Model, ViewName, ConfigureSettings);
         }
 
         private void RenderHtmlOutput(ControllerContext context)

@@ -10,7 +10,7 @@ namespace MvcRazorToPdf
         public static byte[] GeneratePdf(this ControllerContext context, object model=null, string viewName=null,
             Action<PdfWriter, Document> configureSettings=null)
         {
-            return new MvcRazorToPdf().GeneratePdfOutput(context, model, viewName, configureSettings);
+            return MvcRazorToPdf.GeneratePdfOutput(context, model, viewName, configureSettings);
         }
     }
 }
